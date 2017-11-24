@@ -6,12 +6,12 @@
 ## Template atual
 Editor:
 
-``
+```css
 NomeInput.idTxt
-``
+```
 
 Resultado:
-```
+```html
 NomeInput<br>
 <input type="text" id="idTxt" placeholder="NomeInput">
 ```
