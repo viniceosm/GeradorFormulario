@@ -1,25 +1,35 @@
-window.onload = ()=>{
+var templateSelecionado = `$0<br>`
+	+ `\n<input type="text" id="$1" placeholder="$0">`;
+
+window.onload = () => {
 	transformarTextAreaCustomEditable();
 	focarCampo('#txtEditor');
 	prevenirTabIdentar();
-	$('#txtEditor').on('keyup', function(){
-		interpretarCodigoEditor()
+
+	$('#txtTemplateResultado').val(templateSelecionado);
+
+	$('#txtTemplateResultado').on('keyup', function () {
+		templateSelecionado = $(this).val();
+		interpretarCodigoEditor();
+	});
+
+	$('#txtEditor').on('keyup', function() {
+		interpretarCodigoEditor();
 	});
 }
 
-function focarCampo(selector){
+function focarCampo(selector) {
 	document.querySelector(selector).focus();
 }
 
 function transformarTextAreaCustomEditable() {
 	var textAreaCustom = document.querySelectorAll('textarea.textAreaCustom');
 	for (textArea of textAreaCustom) {
-		// textArea.setAttribute('contenteditable', 'true');
 		textArea.setAttribute('spellcheck', 'false');
 	}
 }
 
-function prevenirTabIdentar(){
+function prevenirTabIdentar() {
 	$('textArea.textAreaCustom').on('keydown', function(e) {
 		if (e.keyCode == 9) {
 			$(this).focus();
@@ -37,26 +47,38 @@ function prevenirTabIdentar(){
 	});
 }
 
-function interpretarCodigoEditor(){
+function interpretarCodigoEditor() {
 	var linhas = $('#txtEditor').val().split('\n');
-	var resultado="";
 
-	for (var i=0; i<linhas.length; i++) {
-		var campo="";
-		var maxAtributo=2;
-		var atributos=linhas[i].split('.');
+	for (var i = 0; i < linhas.length; i++) {
+		var campo = '';
+		var maxAtributo = 2;
+		var atributos = linhas[i].split('.');
 
 		//Se outros atributos forem undefined, deixa vazio
-		for (var j=0; j<maxAtributo; j++) {
-			if(typeof atributos[j] == 'undefined'){
-				atributos[j]="";
+		for (var j = 0; j < maxAtributo; j++) {
+			if (typeof atributos[j] == 'undefined') {
+				atributos[j] = '';
 			}
 		}
-		if(linhas[i]!==""){
-			campo+=`${atributos[0]}<br>`
-					+`\n<input type="text" id="${atributos[1]}" placeholder="${atributos[0]}">`;
+
+		if (linhas[i] !== '') {
+			var campoNovo = templateSelecionado;
+
+			campoNovo.match(/\$\d+/g).map(m => {
+				index = m.replace('$', '');
+
+				if (index <= atributos.length) {
+					campoNovo = campoNovo.replace(m, atributos[index]);
+				} else {
+					campoNovo = campoNovo.replace(m, '');
+				}
+			});
+
+			campo += campoNovo;
 		}
-		linhas[i]=campo;
+
+		linhas[i] = campo;
 	}
 
 	$('#txtResultado').val(linhas.join('\n'));
