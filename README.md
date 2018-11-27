@@ -3,9 +3,9 @@
 
 [demo](https://viniceosm.github.io/GeradorFormulario/)
 
-## Template atual
+## Template padrão
 
-Template Resultado:
+Template para o Resultado:
 ```html
 $0<br>
 <input type="text" id="$1" placeholder="$0">
