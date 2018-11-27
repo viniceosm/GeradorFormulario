@@ -5,6 +5,12 @@
 
 ## Template padrão
 
+As variáveis são separadas por `.`
+
+```css
+$0.$1.$2.$3 ...
+```
+
 Template para o Resultado:
 ```html
 $0<br>
