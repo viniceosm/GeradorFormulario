@@ -4,6 +4,13 @@
 [demo](https://viniceosm.github.io/GeradorFormulario/)
 
 ## Template atual
+
+Template Resultado:
+```html
+$0<br>
+<input type="text" id="$1" placeholder="$0">
+```
+
 Editor:
 
 ```css
@@ -17,4 +24,4 @@ NomeInput<br>
 ```
 
 ## TODO
-- [ ] Opção para criar o template
+- [x] Opção para criar o template
